@@ -67,7 +67,7 @@
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[promptLabel]|" options:0 metrics:nil
                                                                        views:@{ @"promptLabel" : _promptLabel }]];
         
-        _inputCirclesView = [[MQPasscodeInputCirclesView alloc] initWiMQPasscodeLength:[_delegate pinLengthForPinView:self]];
+        _inputCirclesView = [[MQPasscodeInputCirclesView alloc] initWithPasscodeLength:[_delegate passcodeLengthForpasscodeView:self]];
         _inputCirclesView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_inputCirclesView];
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_inputCirclesView attribute:NSLayoutAttributeCenterX
@@ -212,13 +212,13 @@
 {
     if ([self.input length] == 0) {
         self.bottomButton.hidden = self.disableCancel;
-        [self.bottomButton setTitle:NSLocalizedStringFromTable(@"cancel_button_title", @"MQPasscodeViewController", nil)
+        [self.bottomButton setTitle:@"Cancel"
                            forState:UIControlStateNormal];
         [self.bottomButton removeTarget:self action:@selector(delete:) forControlEvents:UIControlEventTouchUpInside];
         [self.bottomButton addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
     } else {
         self.bottomButton.hidden = NO;
-        [self.bottomButton setTitle:NSLocalizedStringFromTable(@"delete_button_title", @"MQPasscodeViewController", nil)
+        [self.bottomButton setTitle:@"Delete"
                            forState:UIControlStateNormal];
         [self.bottomButton removeTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
         [self.bottomButton addTarget:self action:@selector(delete:) forControlEvents:UIControlEventTouchUpInside];
@@ -229,7 +229,7 @@
 
 - (void)cancel:(id)sender
 {
-    [self.delegate cancelButtonTappedInPinView:self];
+    [self.delegate cancelButtonTappedInpasscodeView:self];
 }
 
 - (void)delete:(id)sender
@@ -246,9 +246,9 @@
 
 - (void)pinNumPadView:(MQPasscodeNumPadView *)pinNumPadView numberTapped:(NSUInteger)number
 {
-    NSUInteger pinLength = [self.delegate pinLengthForPinView:self];
+    NSUInteger passcodeLength = [self.delegate passcodeLengthForpasscodeView:self];
     
-    if ([self.input length] >= pinLength) {
+    if ([self.input length] >= passcodeLength) {
         return;
     }
     
@@ -257,23 +257,23 @@
     
     [self updateBottomButton];
     
-    if ([self.input length] < pinLength) {
+    if ([self.input length] < passcodeLength) {
         return;
     }
     
-    if ([self.delegate pinView:self isPinValid:self.input])
+    if ([self.delegate passcodeView:self isPinValid:self.input])
     {
         double delayInSeconds = 0.3f;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [self.delegate correctPinWasEnteredInPinView:self];
+            [self.delegate correctPinWasEnteredInpasscodeView:self];
         });
         
     } else {
         
         [self.inputCirclesView shakeWithCompletion:^{
             [self resetInput];
-            [self.delegate incorrectPinWasEnteredInPinView:self];
+            [self.delegate incorrectPinWasEnteredInpasscodeView:self];
         }];
     }
 }

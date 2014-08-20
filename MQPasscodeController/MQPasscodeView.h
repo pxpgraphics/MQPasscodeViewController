@@ -34,11 +34,11 @@
 @protocol MQPasscodeViewDelegate <NSObject>
 
 @required
-- (NSUInteger)pinLengthForPinView:(MQPasscodeView *)pinView;
-- (BOOL)pinView:(MQPasscodeView *)pinView isPinValid:(NSString *)pin;
-- (void)cancelButtonTappedInPinView:(MQPasscodeView *)pinView;
-- (void)correctPinWasEnteredInPinView:(MQPasscodeView *)pinView;
-- (void)incorrectPinWasEnteredInPinView:(MQPasscodeView *)pinView;
+- (NSUInteger)passcodeLengthForpasscodeView:(MQPasscodeView *)passcodeView;
+- (BOOL)passcodeView:(MQPasscodeView *)passcodeView isPinValid:(NSString *)pin;
+- (void)cancelButtonTappedInpasscodeView:(MQPasscodeView *)passcodeView;
+- (void)correctPinWasEnteredInpasscodeView:(MQPasscodeView *)passcodeView;
+- (void)incorrectPinWasEnteredInpasscodeView:(MQPasscodeView *)passcodeView;
 
 @end
 

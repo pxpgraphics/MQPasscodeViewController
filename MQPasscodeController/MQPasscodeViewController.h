@@ -31,24 +31,24 @@
 
 @class MQPasscodeViewController;
 
-// when using translucentBackground assign this tag to the view that should be blurred
-static const NSInteger MQPasscodeViewControllerContentViewTag = 14742;
+// When using translucentBackground assign this tag to the view that should be blurred.
+static NSInteger const MQPasscodeViewControllerContentViewTag = 6201;
 
 @protocol MQPasscodeViewControllerDelegate <NSObject>
 
 @required
-- (NSUInteger)pinLengthForPinViewController:(MQPasscodeViewController *)pinViewController;
-- (BOOL)pinViewController:(MQPasscodeViewController *)pinViewController isPinValid:(NSString *)pin;
-- (BOOL)userCanRetryInPinViewController:(MQPasscodeViewController *)pinViewController;
+- (NSUInteger)passcodeLengthForpasscodeViewController:(MQPasscodeViewController *)passcodeViewController;
+- (BOOL)passcodeViewController:(MQPasscodeViewController *)passcodeViewController isPinValid:(NSString *)pin;
+- (BOOL)userCanRetryInpasscodeViewController:(MQPasscodeViewController *)passcodeViewController;
 
 @optional
-- (void)incorrectPinEnteredInPinViewController:(MQPasscodeViewController *)pinViewController;
-- (void)pinViewControllerWillDismissAfterPinEntryWasSuccessful:(MQPasscodeViewController *)pinViewController;
-- (void)pinViewControllerDidDismissAfterPinEntryWasSuccessful:(MQPasscodeViewController *)pinViewController;
-- (void)pinViewControllerWillDismissAfterPinEntryWasUnsuccessful:(MQPasscodeViewController *)pinViewController;
-- (void)pinViewControllerDidDismissAfterPinEntryWasUnsuccessful:(MQPasscodeViewController *)pinViewController;
-- (void)pinViewControllerWillDismissAfterPinEntryWasCancelled:(MQPasscodeViewController *)pinViewController;
-- (void)pinViewControllerDidDismissAfterPinEntryWasCancelled:(MQPasscodeViewController *)pinViewController;
+- (void)incorrectPinEnteredInpasscodeViewController:(MQPasscodeViewController *)passcodeViewController;
+- (void)passcodeViewControllerWillDismissAfterPinEntryWasSuccessful:(MQPasscodeViewController *)passcodeViewController;
+- (void)passcodeViewControllerDidDismissAfterPinEntryWasSuccessful:(MQPasscodeViewController *)passcodeViewController;
+- (void)passcodeViewControllerWillDismissAfterPinEntryWasUnsuccessful:(MQPasscodeViewController *)passcodeViewController;
+- (void)passcodeViewControllerDidDismissAfterPinEntryWasUnsuccessful:(MQPasscodeViewController *)passcodeViewController;
+- (void)passcodeViewControllerWillDismissAfterPinEntryWasCancelled:(MQPasscodeViewController *)passcodeViewController;
+- (void)passcodeViewControllerDidDismissAfterPinEntryWasCancelled:(MQPasscodeViewController *)passcodeViewController;
 
 @end
 

@@ -29,26 +29,30 @@
 
 #import "MQPasscodeViewController.h"
 #import "MQPasscodeView.h"
-#import "MQPBlurView.h"
+#import "MQBlurView.h"
+#import "MQImageColors.h"
+#import "UIImage+MQPasscodeAdditions.h"
 
 @interface MQPasscodeViewController () <MQPasscodeViewDelegate>
 
-@property (nonatomic, strong) MQPasscodeView *pinView;
-@property (nonatomic, strong) UIView *blurView;
+@property (nonatomic, strong) MQPasscodeView *passcodeView;
+@property (nonatomic, strong) MQBlurView *blurView;
 @property (nonatomic, assign) NSArray *blurViewContraints;
 
 @end
 
 @implementation MQPasscodeViewController
 
+#pragma mark - Lifecycle
+
 - (instancetype)initWithDelegate:(id<MQPasscodeViewControllerDelegate>)delegate
 {
     self = [super init];
     if (self) {
         _delegate = delegate;
-        _backgroundColor = [UIColor whiteColor];
+        _backgroundColor = [UIColor clearColor];
         _translucentBackground = NO;
-        _promptTitle = NSLocalizedStringFromTable(@"prompt_title", @"MQPasscodeViewController", nil);
+        _promptTitle = @"Enter Passcode";
     }
     return self;
 }
@@ -64,198 +68,214 @@
         self.view.backgroundColor = self.backgroundColor;
     }
     
-    self.pinView = [[MQPasscodeView alloc] initWithDelegate:self];
-    self.pinView.backgroundColor = self.view.backgroundColor;
-    self.pinView.promptTitle = self.promptTitle;
-    self.pinView.promptColor = self.promptColor;
-    self.pinView.hideLetters = self.hideLetters;
-    self.pinView.disableCancel = self.disableCancel;
-    self.pinView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:self.pinView];
-    // center pin view
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pinView attribute:NSLayoutAttributeCenterX
+    self.passcodeView = [[MQPasscodeView alloc] initWithDelegate:self];
+    self.passcodeView.backgroundColor = self.view.backgroundColor;
+    self.passcodeView.promptTitle = self.promptTitle;
+    self.passcodeView.promptColor = self.promptColor;
+    self.passcodeView.hideLetters = self.hideLetters;
+    self.passcodeView.disableCancel = self.disableCancel;
+    self.passcodeView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:self.passcodeView];
+    // Center pin view.
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.passcodeView attribute:NSLayoutAttributeCenterX
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view attribute:NSLayoutAttributeCenterX
                                                          multiplier:1.0f constant:0.0f]];
-    CGFloat pinViewYOffset = 0.0f;
+    CGFloat passcodeViewYOffset = 0.0f;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        pinViewYOffset = -9.0f;
+        passcodeViewYOffset = -9.0f;
     } else {
         BOOL isFourInchScreen = (fabs(CGRectGetHeight([[UIScreen mainScreen] bounds]) - 568.0f) < DBL_EPSILON);
         if (isFourInchScreen) {
-            pinViewYOffset = 25.5f;
+            passcodeViewYOffset = 25.5f;
         } else {
-            pinViewYOffset = 18.5f;
+            passcodeViewYOffset = 18.5f;
         }
     }
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pinView attribute:NSLayoutAttributeCenterY
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.passcodeView attribute:NSLayoutAttributeCenterY
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view attribute:NSLayoutAttributeCenterY
-                                                         multiplier:1.0f constant:pinViewYOffset]];
+                                                         multiplier:1.0f constant:passcodeViewYOffset]];
 }
 
-#pragma mark - Properties
+#pragma mark - Custom accessors
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor
 {
     if ([self.backgroundColor isEqual:backgroundColor]) {
         return;
     }
+
     _backgroundColor = backgroundColor;
-    if (! self.translucentBackground) {
-        self.view.backgroundColor = self.backgroundColor;
-        self.pinView.backgroundColor = self.backgroundColor;
+
+    if (!self.translucentBackground) {
+        self.view.backgroundColor = _backgroundColor;
+        self.passcodeView.backgroundColor = _backgroundColor;
     }
 }
 
 - (void)setTranslucentBackground:(BOOL)translucentBackground
 {
-    if (self.translucentBackground == translucentBackground) {
+    if (_translucentBackground == translucentBackground) {
         return;
     }
+
     _translucentBackground = translucentBackground;
-    if (self.translucentBackground) {
+
+    if (_translucentBackground) {
         self.view.backgroundColor = [UIColor clearColor];
-        self.pinView.backgroundColor = [UIColor clearColor];
+        self.passcodeView.backgroundColor = [UIColor clearColor];
         [self addBlurView];
     } else {
         self.view.backgroundColor = self.backgroundColor;
-        self.pinView.backgroundColor = self.backgroundColor;
+        self.passcodeView.backgroundColor = self.backgroundColor;
         [self removeBlurView];
     }
 }
 
 - (void)setPromptTitle:(NSString *)promptTitle
 {
-    if ([self.promptTitle isEqualToString:promptTitle]) {
+    if ([_promptTitle isEqualToString:promptTitle]) {
         return;
     }
+
     _promptTitle = [promptTitle copy];
-    self.pinView.promptTitle = self.promptTitle;
+
+    self.passcodeView.promptTitle = _promptTitle;
 }
 
 - (void)setPromptColor:(UIColor *)promptColor
 {
-    if ([self.promptColor isEqual:promptColor]) {
+    if ([_promptColor isEqual:promptColor]) {
         return;
     }
+
     _promptColor = promptColor;
-    self.pinView.promptColor = self.promptColor;
+
+	self.view.tintColor = _promptColor;
+    self.passcodeView.promptColor = _promptColor;
 }
 
 - (void)setHideLetters:(BOOL)hideLetters
 {
-    if (self.hideLetters == hideLetters) {
+    if (_hideLetters == hideLetters) {
         return;
     }
+
     _hideLetters = hideLetters;
-    self.pinView.hideLetters = self.hideLetters;
+
+    self.passcodeView.hideLetters = _hideLetters;
 }
 
 - (void)setDisableCancel:(BOOL)disableCancel
 {
-    if (self.disableCancel == disableCancel) {
+    if (_disableCancel == disableCancel) {
         return;
     }
+
     _disableCancel = disableCancel;
-    self.pinView.disableCancel = self.disableCancel;
+
+    self.passcodeView.disableCancel = _disableCancel;
 }
 
-#pragma mark - Blur
+#pragma mark - MQPasscodeViewDelegate
+
+- (NSUInteger)passcodeLengthForpasscodeView:(MQPasscodeView *)passcodeView
+{
+    NSUInteger passcodeLength = [self.delegate passcodeLengthForpasscodeViewController:self];
+    NSAssert(passcodeLength > 0, @"PIN length must be greater than 0");
+    return MAX(passcodeLength, (NSUInteger)1);
+}
+
+- (BOOL)passcodeView:(MQPasscodeView *)passcodeView isPinValid:(NSString *)pin
+{
+    return [self.delegate passcodeViewController:self isPinValid:pin];
+}
+
+- (void)cancelButtonTappedInpasscodeView:(MQPasscodeView *)passcodeView
+{
+    if ([self.delegate respondsToSelector:@selector(passcodeViewControllerWillDismissAfterPinEntryWasCancelled:)]) {
+        [self.delegate passcodeViewControllerWillDismissAfterPinEntryWasCancelled:self];
+    }
+    [self dismissViewControllerAnimated:YES completion:^{
+        if ([self.delegate respondsToSelector:@selector(passcodeViewControllerDidDismissAfterPinEntryWasCancelled:)]) {
+            [self.delegate passcodeViewControllerDidDismissAfterPinEntryWasCancelled:self];
+        }
+    }];
+}
+
+- (void)correctPinWasEnteredInpasscodeView:(MQPasscodeView *)passcodeView
+{
+    if ([self.delegate respondsToSelector:@selector(passcodeViewControllerWillDismissAfterPinEntryWasSuccessful:)]) {
+        [self.delegate passcodeViewControllerWillDismissAfterPinEntryWasSuccessful:self];
+    }
+    [self dismissViewControllerAnimated:YES completion:^{
+        if ([self.delegate respondsToSelector:@selector(passcodeViewControllerDidDismissAfterPinEntryWasSuccessful:)]) {
+            [self.delegate passcodeViewControllerDidDismissAfterPinEntryWasSuccessful:self];
+        }
+    }];
+}
+
+- (void)incorrectPinWasEnteredInpasscodeView:(MQPasscodeView *)passcodeView
+{
+    if ([self.delegate userCanRetryInpasscodeViewController:self]) {
+        if ([self.delegate respondsToSelector:@selector(incorrectPinEnteredInpasscodeViewController:)]) {
+            [self.delegate incorrectPinEnteredInpasscodeViewController:self];
+        }
+    } else {
+        if ([self.delegate respondsToSelector:@selector(passcodeViewControllerWillDismissAfterPinEntryWasUnsuccessful:)]) {
+            [self.delegate passcodeViewControllerWillDismissAfterPinEntryWasUnsuccessful:self];
+        }
+        [self dismissViewControllerAnimated:YES completion:^{
+            if ([self.delegate respondsToSelector:@selector(passcodeViewControllerDidDismissAfterPinEntryWasUnsuccessful:)]) {
+                [self.delegate passcodeViewControllerDidDismissAfterPinEntryWasUnsuccessful:self];
+            }
+        }];
+    }
+}
+
+#pragma mark - Private methods
 
 - (void)addBlurView
 {
-    self.blurView = [[UIImageView alloc] initWithImage:[self blurredContentImage]];
-    self.blurView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view insertSubview:self.blurView belowSubview:self.pinView];
-    NSDictionary *views = @{ @"blurView" : self.blurView };
-    NSMutableArray *constraints =
-    [NSMutableArray arrayWithArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[blurView]|"
-                                                                           options:0 metrics:nil views:views]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[blurView]|"
-                                                                             options:0 metrics:nil views:views]];
-    self.blurViewContraints = constraints;
-    [self.view addConstraints:self.blurViewContraints];
+	self.blurView = (MQBlurView *)[[UIImageView alloc] initWithImage:[self blurredContentImage]];
+	CGFloat max = MAX(self.blurView.frame.size.width, self.blurView.frame.size.height);
+	self.blurView.frame = CGRectMake(0.0, 0.0, max, max);
+    [self.view insertSubview:self.blurView belowSubview:self.passcodeView];
+
+	MQImageColors *imageColors = [[MQImageColors alloc] initWithImage:[self contentImage] count:7];
+	self.promptColor = imageColors.colors[3];
+}
+
+- (UIImage *)blurredContentImage
+{
+	UIImage *image = [self contentImage];
+	if (!image) {
+		return nil;
+	}
+
+	return [image applyBlurWithRadius:20.0f tintColor:[UIColor colorWithWhite:1.0f alpha:0.75f]
+				saturationDeltaFactor:1.8f maskImage:nil];
+}
+
+- (UIImage *)contentImage
+{
+	UIView *contentView = [[[UIApplication sharedApplication] keyWindow] viewWithTag:MQPasscodeViewControllerContentViewTag];
+	if (! contentView) {
+		return nil;
+	}
+
+	UIGraphicsBeginImageContext(self.view.bounds.size);
+	[contentView drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:NO];
+	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	return image;
 }
 
 - (void)removeBlurView
 {
     [self.blurView removeFromSuperview];
     self.blurView = nil;
-    [self.view removeConstraints:self.blurViewContraints];
-    self.blurViewContraints = nil;
-}
-
-- (UIImage*)blurredContentImage
-{
-	NSLog(@"BLURRRRRR!!!!");
-	return nil;
-//    UIView *contentView = [[[UIApplication sharedApplication] keyWindow] viewWithTag:MQPasscodeViewControllerContentViewTag];
-//    if (! contentView) {
-//        return nil;
-//    }
-//    UIGraphicsBeginImageContext(self.view.bounds.size);
-//    [contentView drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:NO];
-//    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    return [image applyBlurWithRadius:20.0f tintColor:[UIColor colorWithWhite:1.0f alpha:0.25f]
-//                saturationDeltaFactor:1.8f maskImage:nil];
-}
-
-#pragma mark - MQPasscodeViewDelegate
-
-- (NSUInteger)pinLengthForPinView:(MQPasscodeView *)pinView
-{
-    NSUInteger pinLength = [self.delegate pinLengthForPinViewController:self];
-    NSAssert(pinLength > 0, @"PIN length must be greater than 0");
-    return MAX(pinLength, (NSUInteger)1);
-}
-
-- (BOOL)pinView:(MQPasscodeView *)pinView isPinValid:(NSString *)pin
-{
-    return [self.delegate pinViewController:self isPinValid:pin];
-}
-
-- (void)cancelButtonTappedInPinView:(MQPasscodeView *)pinView
-{
-    if ([self.delegate respondsToSelector:@selector(pinViewControllerWillDismissAfterPinEntryWasCancelled:)]) {
-        [self.delegate pinViewControllerWillDismissAfterPinEntryWasCancelled:self];
-    }
-    [self dismissViewControllerAnimated:YES completion:^{
-        if ([self.delegate respondsToSelector:@selector(pinViewControllerDidDismissAfterPinEntryWasCancelled:)]) {
-            [self.delegate pinViewControllerDidDismissAfterPinEntryWasCancelled:self];
-        }
-    }];
-}
-
-- (void)correctPinWasEnteredInPinView:(MQPasscodeView *)pinView
-{
-    if ([self.delegate respondsToSelector:@selector(pinViewControllerWillDismissAfterPinEntryWasSuccessful:)]) {
-        [self.delegate pinViewControllerWillDismissAfterPinEntryWasSuccessful:self];
-    }
-    [self dismissViewControllerAnimated:YES completion:^{
-        if ([self.delegate respondsToSelector:@selector(pinViewControllerDidDismissAfterPinEntryWasSuccessful:)]) {
-            [self.delegate pinViewControllerDidDismissAfterPinEntryWasSuccessful:self];
-        }
-    }];
-}
-
-- (void)incorrectPinWasEnteredInPinView:(MQPasscodeView *)pinView
-{
-    if ([self.delegate userCanRetryInPinViewController:self]) {
-        if ([self.delegate respondsToSelector:@selector(incorrectPinEnteredInPinViewController:)]) {
-            [self.delegate incorrectPinEnteredInPinViewController:self];
-        }
-    } else {
-        if ([self.delegate respondsToSelector:@selector(pinViewControllerWillDismissAfterPinEntryWasUnsuccessful:)]) {
-            [self.delegate pinViewControllerWillDismissAfterPinEntryWasUnsuccessful:self];
-        }
-        [self dismissViewControllerAnimated:YES completion:^{
-            if ([self.delegate respondsToSelector:@selector(pinViewControllerDidDismissAfterPinEntryWasUnsuccessful:)]) {
-                [self.delegate pinViewControllerDidDismissAfterPinEntryWasUnsuccessful:self];
-            }
-        }];
-    }
 }
 
 @end

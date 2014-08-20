@@ -30,34 +30,37 @@
 #import "MQPasscodeInputCirclesView.h"
 #import "MQPasscodeInputCircleView.h"
 
+static NSUInteger const MQPasscodeInputCircleViewMaximumNumberOfShakes = 6;
+static CGFloat const MQPasscodeInputCircleViewInitialShakeVelocity = 40.0f;
+
 @interface MQPasscodeInputCirclesView ()
 
 @property (nonatomic, strong) NSMutableArray *circleViews;
 @property (nonatomic, readonly, assign) CGFloat circlePadding;
 
-@property (nonatomic, assign) NSUInteger numShakes;
+@property (nonatomic, assign) NSUInteger numberOfShakes;
 @property (nonatomic, assign) NSInteger shakeDirection;
-@property (nonatomic, assign) CGFloat shakeAmplitude;
-@property (nonatomic, strong) MQPasscodeInputCirclesViewShakeCompletionBlock shakeCompletionBlock;
+@property (nonatomic, assign) CGFloat shakeVelocity;
+@property (nonatomic, strong) MQPasscodeInputCirclesViewCompletionBlock completionBlock;
 
 @end
 
 @implementation MQPasscodeInputCirclesView
 
-- (instancetype)initWiMQPasscodeLength:(NSUInteger)pinLength
+- (instancetype)initWithPasscodeLength:(NSUInteger)passcodeLength
 {
     self = [super init];
     if (self)
     {
-        _pinLength = pinLength;
+        _passcodeLength = passcodeLength;
         
         _circleViews = [NSMutableArray array];
         NSMutableString *format = [NSMutableString stringWithString:@"H:|"];
         NSMutableDictionary *views = [NSMutableDictionary dictionary];
         
-        for (NSUInteger i = 0; i < _pinLength; i++)
+        for (NSUInteger i = 0; i < _passcodeLength; i++)
         {
-            MQPasscodeInputCircleView* circleView = [[MQPasscodeInputCircleView alloc] init];
+            MQPasscodeInputCircleView *circleView = [[MQPasscodeInputCircleView alloc] init];
             circleView.translatesAutoresizingMaskIntoConstraints = NO;
             [self addSubview:circleView];
             [self addConstraint:[NSLayoutConstraint constraintWithItem:circleView attribute:NSLayoutAttributeTop
@@ -82,7 +85,7 @@
 
 - (CGSize)intrinsicContentSize
 {
-    return CGSizeMake(self.pinLength * [MQPasscodeInputCircleView diameter] + (self.pinLength - 1) * self.circlePadding,
+    return CGSizeMake(self.passcodeLength * [MQPasscodeInputCircleView diameter] + (self.passcodeLength - 1) * self.circlePadding,
                       [MQPasscodeInputCircleView diameter]);
 }
 
@@ -110,34 +113,31 @@
     }
 }
 
-static const NSUInteger THTotalNumberOfShakes = 6;
-static const CGFloat THInitialShakeAmplitude = 40.0f;
-
-- (void)shakeWithCompletion:(MQPasscodeInputCirclesViewShakeCompletionBlock)completion
+- (void)shakeWithCompletion:(MQPasscodeInputCirclesViewCompletionBlock)completion
 {
-    self.numShakes = 0;
+    self.numberOfShakes = 0;
     self.shakeDirection = -1;
-    self.shakeAmplitude = THInitialShakeAmplitude;
-    self.shakeCompletionBlock = completion;
+    self.shakeVelocity = MQPasscodeInputCircleViewMaximumNumberOfShakes;
+    self.completionBlock = completion;
     [self performShake];
 }
 
 - (void)performShake
 {
     [UIView animateWithDuration:0.03f animations:^ {
-        self.transform = CGAffineTransformMakeTranslation(self.shakeDirection * self.shakeAmplitude, 0.0f);
+        self.transform = CGAffineTransformMakeTranslation(self.shakeDirection * self.shakeVelocity, 0.0f);
     } completion:^(BOOL finished) {
-        if (self.numShakes < THTotalNumberOfShakes)
+        if (self.numberOfShakes < MQPasscodeInputCircleViewMaximumNumberOfShakes)
         {
-            self.numShakes++;
+            self.numberOfShakes++;
             self.shakeDirection = -1 * self.shakeDirection;
-            self.shakeAmplitude = (THTotalNumberOfShakes - self.numShakes) * (THInitialShakeAmplitude / THTotalNumberOfShakes);
+            self.shakeVelocity = (MQPasscodeInputCircleViewMaximumNumberOfShakes - self.numberOfShakes) * (MQPasscodeInputCircleViewInitialShakeVelocity / MQPasscodeInputCircleViewMaximumNumberOfShakes);
             [self performShake];
         } else {
             self.transform = CGAffineTransformIdentity;
-            if (self.shakeCompletionBlock) {
-                self.shakeCompletionBlock();
-                self.shakeCompletionBlock = nil;
+            if (self.completionBlock) {
+                self.completionBlock();
+                self.completionBlock = nil;
             }
         }
     }];

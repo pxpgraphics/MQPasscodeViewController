@@ -7,6 +7,7 @@
 //
 
 #import "MQAppDelegate.h"
+#import "MQViewController.h"
 
 @implementation MQAppDelegate
 
@@ -15,6 +16,9 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 
+	MQViewController *viewController = [[MQViewController alloc] init];
+	self.window.rootViewController = viewController;
+	
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;

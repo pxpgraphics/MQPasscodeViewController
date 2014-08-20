@@ -29,17 +29,28 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^MQPasscodeInputCirclesViewShakeCompletionBlock)(void);
+typedef NS_ENUM(NSInteger, MQPasscodeInputCirclesViewShakeDirection) {
+	MQPasscodeInputCirclesViewShakeDirectionLeft = -1,
+	MQPasscodeInputCirclesViewShakeDirectionRight = 1
+};
+
+typedef void (^MQPasscodeInputCirclesViewCompletionBlock)();
 
 @interface MQPasscodeInputCirclesView : UIView
 
-@property (nonatomic, assign) NSUInteger pinLength;
+@property (nonatomic) NSUInteger passcodeLength;
 
-- (instancetype)initWiMQPasscodeLength:(NSUInteger)pinLength;
+- (instancetype)initWithPasscodeLength:(NSUInteger)passcodeLength;
 
 - (void)fillCircleAtPosition:(NSUInteger)position;
 - (void)unfillCircleAtPosition:(NSUInteger)position;
 - (void)unfillAllCircles;
-- (void)shakeWithCompletion:(MQPasscodeInputCirclesViewShakeCompletionBlock)completion;
+- (void)shakeWithCompletion:(MQPasscodeInputCirclesViewCompletionBlock)completion;
+
+/*
+ - (void)redrawCircleAtPosition:(NSUInteger)position opaque:(BOOL)opague;
+ - (void)resetCircles;
+ - (void)animateShakeWithCompletion:(MQPasscodeInputCirclesViewCompletionBlock)completionBlock;
+*/
 
 @end

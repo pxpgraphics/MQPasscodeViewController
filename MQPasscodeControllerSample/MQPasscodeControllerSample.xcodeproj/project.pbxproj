@@ -14,9 +14,13 @@
 		AD057E6B19A5388300461B4A /* MQPasscodeNumPadView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD057E5D19A5388300461B4A /* MQPasscodeNumPadView.m */; };
 		AD057E6C19A5388300461B4A /* MQPasscodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD057E5F19A5388300461B4A /* MQPasscodeView.m */; };
 		AD057E6D19A5388300461B4A /* MQPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD057E6119A5388300461B4A /* MQPasscodeViewController.m */; };
-		AD057E6E19A5388300461B4A /* MQPBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD057E6319A5388300461B4A /* MQPBlurView.m */; };
-		AD057E6F19A5388300461B4A /* UIImage+MQAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AD057E6519A5388300461B4A /* UIImage+MQAdditions.m */; };
-		AD057E7019A5388300461B4A /* UIWindow+MQAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AD057E6719A5388300461B4A /* UIWindow+MQAdditions.m */; };
+		AD057E6E19A5388300461B4A /* MQBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD057E6319A5388300461B4A /* MQBlurView.m */; };
+		AD057E6F19A5388300461B4A /* UIImage+MQPasscodeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AD057E6519A5388300461B4A /* UIImage+MQPasscodeAdditions.m */; };
+		AD057E7019A5388300461B4A /* UIWindow+MQPasscodeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AD057E6719A5388300461B4A /* UIWindow+MQPasscodeAdditions.m */; };
+		AD057E7219A591FE00461B4A /* unsplash_52bf2bb8d2dd0_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AD057E7119A591FE00461B4A /* unsplash_52bf2bb8d2dd0_1.jpg */; };
+		AD1A3A6419A5A5B500A4EB23 /* UIColor+MQPasscodeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1A3A6319A5A5B500A4EB23 /* UIColor+MQPasscodeAdditions.m */; };
+		AD1A3A6719A5A8DC00A4EB23 /* MQImageColors.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1A3A6619A5A8DC00A4EB23 /* MQImageColors.m */; };
+		AD1A3A6A19A5AD9B00A4EB23 /* MQCountedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1A3A6919A5AD9B00A4EB23 /* MQCountedColor.m */; };
 		AD6002F019A2AFA700B2CA17 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6002EF19A2AFA700B2CA17 /* Foundation.framework */; };
 		AD6002F219A2AFA700B2CA17 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6002F119A2AFA700B2CA17 /* CoreGraphics.framework */; };
 		AD6002F419A2AFA700B2CA17 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6002F319A2AFA700B2CA17 /* UIKit.framework */; };
@@ -52,16 +56,23 @@
 		AD057E5B19A5388300461B4A /* MQPasscodeNumPadButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQPasscodeNumPadButton.m; path = ../MQPasscodeController/MQPasscodeNumPadButton.m; sourceTree = "<group>"; };
 		AD057E5C19A5388300461B4A /* MQPasscodeNumPadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQPasscodeNumPadView.h; path = ../MQPasscodeController/MQPasscodeNumPadView.h; sourceTree = "<group>"; };
 		AD057E5D19A5388300461B4A /* MQPasscodeNumPadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQPasscodeNumPadView.m; path = ../MQPasscodeController/MQPasscodeNumPadView.m; sourceTree = "<group>"; };
-		AD057E5E19A5388300461B4A /* MQPasscodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQPasscodeView.h; path = ../MQPasscodeController/MQPasscodeView.h; sourceTree = "<group>"; };
-		AD057E5F19A5388300461B4A /* MQPasscodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQPasscodeView.m; path = ../MQPasscodeController/MQPasscodeView.m; sourceTree = "<group>"; };
-		AD057E6019A5388300461B4A /* MQPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQPasscodeViewController.h; path = ../MQPasscodeController/MQPasscodeViewController.h; sourceTree = "<group>"; };
+		AD057E5E19A5388300461B4A /* MQPasscodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = MQPasscodeView.h; path = ../MQPasscodeController/MQPasscodeView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		AD057E5F19A5388300461B4A /* MQPasscodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = MQPasscodeView.m; path = ../MQPasscodeController/MQPasscodeView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		AD057E6019A5388300461B4A /* MQPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = MQPasscodeViewController.h; path = ../MQPasscodeController/MQPasscodeViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AD057E6119A5388300461B4A /* MQPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQPasscodeViewController.m; path = ../MQPasscodeController/MQPasscodeViewController.m; sourceTree = "<group>"; };
-		AD057E6219A5388300461B4A /* MQPBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQPBlurView.h; path = ../MQPasscodeController/MQPBlurView.h; sourceTree = "<group>"; };
-		AD057E6319A5388300461B4A /* MQPBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQPBlurView.m; path = ../MQPasscodeController/MQPBlurView.m; sourceTree = "<group>"; };
-		AD057E6419A5388300461B4A /* UIImage+MQAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+MQAdditions.h"; path = "../MQPasscodeController/UIImage+MQAdditions.h"; sourceTree = "<group>"; };
-		AD057E6519A5388300461B4A /* UIImage+MQAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+MQAdditions.m"; path = "../MQPasscodeController/UIImage+MQAdditions.m"; sourceTree = "<group>"; };
-		AD057E6619A5388300461B4A /* UIWindow+MQAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWindow+MQAdditions.h"; path = "../MQPasscodeController/UIWindow+MQAdditions.h"; sourceTree = "<group>"; };
-		AD057E6719A5388300461B4A /* UIWindow+MQAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWindow+MQAdditions.m"; path = "../MQPasscodeController/UIWindow+MQAdditions.m"; sourceTree = "<group>"; };
+		AD057E6219A5388300461B4A /* MQBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQBlurView.h; path = ../MQPasscodeController/MQBlurView.h; sourceTree = "<group>"; };
+		AD057E6319A5388300461B4A /* MQBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQBlurView.m; path = ../MQPasscodeController/MQBlurView.m; sourceTree = "<group>"; };
+		AD057E6419A5388300461B4A /* UIImage+MQPasscodeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+MQPasscodeAdditions.h"; path = "../MQPasscodeController/UIImage+MQPasscodeAdditions.h"; sourceTree = "<group>"; };
+		AD057E6519A5388300461B4A /* UIImage+MQPasscodeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+MQPasscodeAdditions.m"; path = "../MQPasscodeController/UIImage+MQPasscodeAdditions.m"; sourceTree = "<group>"; };
+		AD057E6619A5388300461B4A /* UIWindow+MQPasscodeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWindow+MQPasscodeAdditions.h"; path = "../MQPasscodeController/UIWindow+MQPasscodeAdditions.h"; sourceTree = "<group>"; };
+		AD057E6719A5388300461B4A /* UIWindow+MQPasscodeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWindow+MQPasscodeAdditions.m"; path = "../MQPasscodeController/UIWindow+MQPasscodeAdditions.m"; sourceTree = "<group>"; };
+		AD057E7119A591FE00461B4A /* unsplash_52bf2bb8d2dd0_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = unsplash_52bf2bb8d2dd0_1.jpg; path = ../unsplash_52bf2bb8d2dd0_1.jpg; sourceTree = "<group>"; };
+		AD1A3A6219A5A5B500A4EB23 /* UIColor+MQPasscodeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+MQPasscodeAdditions.h"; path = "../MQPasscodeController/UIColor+MQPasscodeAdditions.h"; sourceTree = "<group>"; };
+		AD1A3A6319A5A5B500A4EB23 /* UIColor+MQPasscodeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+MQPasscodeAdditions.m"; path = "../MQPasscodeController/UIColor+MQPasscodeAdditions.m"; sourceTree = "<group>"; };
+		AD1A3A6519A5A8DC00A4EB23 /* MQImageColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQImageColors.h; path = ../MQPasscodeController/MQImageColors.h; sourceTree = "<group>"; };
+		AD1A3A6619A5A8DC00A4EB23 /* MQImageColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQImageColors.m; path = ../MQPasscodeController/MQImageColors.m; sourceTree = "<group>"; };
+		AD1A3A6819A5AD9B00A4EB23 /* MQCountedColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQCountedColor.h; path = ../MQPasscodeController/MQCountedColor.h; sourceTree = "<group>"; };
+		AD1A3A6919A5AD9B00A4EB23 /* MQCountedColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQCountedColor.m; path = ../MQPasscodeController/MQCountedColor.m; sourceTree = "<group>"; };
 		AD6002EC19A2AFA700B2CA17 /* MQPasscodeControllerSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MQPasscodeControllerSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6002EF19A2AFA700B2CA17 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AD6002F119A2AFA700B2CA17 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -107,6 +118,12 @@
 		AD057E5519A5387000461B4A /* MQPasscodeController */ = {
 			isa = PBXGroup;
 			children = (
+				AD057E6219A5388300461B4A /* MQBlurView.h */,
+				AD057E6319A5388300461B4A /* MQBlurView.m */,
+				AD1A3A6819A5AD9B00A4EB23 /* MQCountedColor.h */,
+				AD1A3A6919A5AD9B00A4EB23 /* MQCountedColor.m */,
+				AD1A3A6519A5A8DC00A4EB23 /* MQImageColors.h */,
+				AD1A3A6619A5A8DC00A4EB23 /* MQImageColors.m */,
 				AD057E5619A5388300461B4A /* MQPasscodeInputCirclesView.h */,
 				AD057E5719A5388300461B4A /* MQPasscodeInputCirclesView.m */,
 				AD057E5819A5388300461B4A /* MQPasscodeInputCircleView.h */,
@@ -119,12 +136,12 @@
 				AD057E5F19A5388300461B4A /* MQPasscodeView.m */,
 				AD057E6019A5388300461B4A /* MQPasscodeViewController.h */,
 				AD057E6119A5388300461B4A /* MQPasscodeViewController.m */,
-				AD057E6219A5388300461B4A /* MQPBlurView.h */,
-				AD057E6319A5388300461B4A /* MQPBlurView.m */,
-				AD057E6419A5388300461B4A /* UIImage+MQAdditions.h */,
-				AD057E6519A5388300461B4A /* UIImage+MQAdditions.m */,
-				AD057E6619A5388300461B4A /* UIWindow+MQAdditions.h */,
-				AD057E6719A5388300461B4A /* UIWindow+MQAdditions.m */,
+				AD1A3A6219A5A5B500A4EB23 /* UIColor+MQPasscodeAdditions.h */,
+				AD1A3A6319A5A5B500A4EB23 /* UIColor+MQPasscodeAdditions.m */,
+				AD057E6419A5388300461B4A /* UIImage+MQPasscodeAdditions.h */,
+				AD057E6519A5388300461B4A /* UIImage+MQPasscodeAdditions.m */,
+				AD057E6619A5388300461B4A /* UIWindow+MQPasscodeAdditions.h */,
+				AD057E6719A5388300461B4A /* UIWindow+MQPasscodeAdditions.m */,
 			);
 			name = MQPasscodeController;
 			sourceTree = "<group>";
@@ -165,10 +182,10 @@
 			children = (
 				AD6002FE19A2AFA700B2CA17 /* MQAppDelegate.h */,
 				AD6002FF19A2AFA700B2CA17 /* MQAppDelegate.m */,
-				AD60030119A2AFA700B2CA17 /* Images.xcassets */,
-				AD6002F619A2AFA700B2CA17 /* Supporting Files */,
 				AD057E5219A5369800461B4A /* MQViewController.h */,
 				AD057E5319A5369800461B4A /* MQViewController.m */,
+				AD60030119A2AFA700B2CA17 /* Images.xcassets */,
+				AD6002F619A2AFA700B2CA17 /* Supporting Files */,
 			);
 			path = MQPasscodeControllerSample;
 			sourceTree = "<group>";
@@ -176,6 +193,7 @@
 		AD6002F619A2AFA700B2CA17 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AD057E7119A591FE00461B4A /* unsplash_52bf2bb8d2dd0_1.jpg */,
 				AD6002F719A2AFA700B2CA17 /* MQPasscodeControllerSample-Info.plist */,
 				AD6002F819A2AFA700B2CA17 /* InfoPlist.strings */,
 				AD6002FB19A2AFA700B2CA17 /* main.m */,
@@ -285,6 +303,7 @@
 			files = (
 				AD6002FA19A2AFA700B2CA17 /* InfoPlist.strings in Resources */,
 				AD60030219A2AFA700B2CA17 /* Images.xcassets in Resources */,
+				AD057E7219A591FE00461B4A /* unsplash_52bf2bb8d2dd0_1.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,18 +322,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD057E6F19A5388300461B4A /* UIImage+MQAdditions.m in Sources */,
+				AD057E6F19A5388300461B4A /* UIImage+MQPasscodeAdditions.m in Sources */,
 				AD057E6A19A5388300461B4A /* MQPasscodeNumPadButton.m in Sources */,
 				AD60030019A2AFA700B2CA17 /* MQAppDelegate.m in Sources */,
 				AD6002FC19A2AFA700B2CA17 /* main.m in Sources */,
 				AD057E6919A5388300461B4A /* MQPasscodeInputCircleView.m in Sources */,
-				AD057E6E19A5388300461B4A /* MQPBlurView.m in Sources */,
+				AD057E6E19A5388300461B4A /* MQBlurView.m in Sources */,
 				AD057E6D19A5388300461B4A /* MQPasscodeViewController.m in Sources */,
 				AD057E5419A5369800461B4A /* MQViewController.m in Sources */,
 				AD057E6819A5388300461B4A /* MQPasscodeInputCirclesView.m in Sources */,
 				AD057E6C19A5388300461B4A /* MQPasscodeView.m in Sources */,
 				AD057E6B19A5388300461B4A /* MQPasscodeNumPadView.m in Sources */,
-				AD057E7019A5388300461B4A /* UIWindow+MQAdditions.m in Sources */,
+				AD057E7019A5388300461B4A /* UIWindow+MQPasscodeAdditions.m in Sources */,
+				AD1A3A6419A5A5B500A4EB23 /* UIColor+MQPasscodeAdditions.m in Sources */,
+				AD1A3A6A19A5AD9B00A4EB23 /* MQCountedColor.m in Sources */,
+				AD1A3A6719A5A8DC00A4EB23 /* MQImageColors.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
