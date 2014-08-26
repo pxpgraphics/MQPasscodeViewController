@@ -38,6 +38,7 @@
 @property (nonatomic, strong) MQPasscodeView *passcodeView;
 @property (nonatomic, strong) MQBlurView *blurView;
 @property (nonatomic, assign) NSArray *blurViewContraints;
+@property (nonatomic, assign, getter = isBlurred) BOOL blurred;
 
 @end
 
@@ -238,44 +239,85 @@
 
 - (void)addBlurView
 {
-	self.blurView = (MQBlurView *)[[UIImageView alloc] initWithImage:[self blurredContentImage]];
+	self.blurView = [[MQBlurView alloc] initWithImage:[self blurredContentImage]];
 	CGFloat max = MAX(self.blurView.frame.size.width, self.blurView.frame.size.height);
 	self.blurView.frame = CGRectMake(0.0, 0.0, max, max);
+	if (!self.blurView.image) {
+		self.blurView.image = [self blurredContentImage];
+	}
     [self.view insertSubview:self.blurView belowSubview:self.passcodeView];
 
+	/* 
+	// FIXME: Uses way too much memory!
 	MQImageColors *imageColors = [[MQImageColors alloc] initWithImage:[self contentImage] count:7];
-	self.promptColor = imageColors.colors[3];
+	NSLog(@"Color: %@", imageColors.colors);
+	self.promptColor = imageColors.colors[4];
+	 */
 }
 
 - (UIImage *)blurredContentImage
 {
-	UIImage *image = [self contentImage];
-	if (!image) {
-		return nil;
+	static UIImage *image = nil;
+
+	if (!self.isBlurred) {
+		dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+			//Background Thread
+			UIImage *blurredImage = [[self contentImage] applyLightEffect];
+			dispatch_async(dispatch_get_main_queue(), ^(void) {
+				image = blurredImage;
+				if (self.isBlurred) {
+					[UIView animateWithDuration:0.5f animations:^{
+						self.blurView.alpha = 1.0f;
+					}];
+				}
+				//Run UI Updates
+			});
+		});
 	}
 
-	return [image applyBlurWithRadius:20.0f tintColor:[UIColor colorWithWhite:1.0f alpha:0.75f]
-				saturationDeltaFactor:1.8f maskImage:nil];
+	return image;
+
+//	UIImage *image = [self contentImage];
+//	if (!image) {
+//		return nil;
+//	}
+//
+//	return [image applyBlurWithRadius:20.0f tintColor:[UIColor colorWithWhite:1.0f alpha:0.75f]
+//				saturationDeltaFactor:1.8f maskImage:nil];
 }
 
 - (UIImage *)contentImage
 {
-	UIView *contentView = [[[UIApplication sharedApplication] keyWindow] viewWithTag:MQPasscodeViewControllerContentViewTag];
-	if (! contentView) {
-		return nil;
-	}
+	static UIImage *blurredImage = nil;
+	if (!self.isBlurred) {
+		UIView *contentView = [[[UIApplication sharedApplication] keyWindow] viewWithTag:MQPasscodeViewControllerContentViewTag];
+		if (!contentView) {
+			return nil;
+		}
 
-	UIGraphicsBeginImageContext(self.view.bounds.size);
-	[contentView drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:NO];
-	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-	UIGraphicsEndImageContext();
-	return image;
+		CGSize size = self.view.bounds.size;
+		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+			UIGraphicsBeginImageContextWithOptions(size, NO, 0.1);
+		} else {
+			UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+		}
+		[contentView drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:NO];
+		UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+		UIGraphicsEndImageContext();
+		blurredImage = image;
+		self.blurred = YES;
+		return image;
+	} else {
+		self.blurred = YES;
+		return blurredImage;
+	}
 }
 
 - (void)removeBlurView
 {
     [self.blurView removeFromSuperview];
     self.blurView = nil;
+	self.blurred = NO;
 }
 
 @end

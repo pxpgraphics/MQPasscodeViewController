@@ -27,6 +27,8 @@
 @property (nonatomic) CGFloat blurSaturationDeltaFactor UI_APPEARANCE_SELECTOR;
 @property (nonatomic, copy) UIColor *blurTintColor UI_APPEARANCE_SELECTOR;
 
+@property (nonatomic, assign) BOOL animateBlur;
+
 // Text attributes
 @property (nonatomic, copy) NSDictionary *buttonTextAttributes UI_APPEARANCE_SELECTOR;
 @property (nonatomic, copy) NSDictionary *cancelButtonTextAttributes UI_APPEARANCE_SELECTOR;
@@ -41,6 +43,8 @@
 
 // Window visible while the blur view is displayed.
 @property (nonatomic, weak, readonly) UIWindow *keyWindow;
+
+- (instancetype)initWithFrame:(CGRect)frame animateBlur:(BOOL)animateBlur;
 
 - (void)blurSnapshot;
 

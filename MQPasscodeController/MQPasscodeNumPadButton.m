@@ -141,8 +141,14 @@
     [super touchesBegan:touches withEvent:event];
     self.backgroundColorBackup = self.backgroundColor;
     self.backgroundColor = self.tintColor;
-    UIColor *textColor = ([self.backgroundColorBackup isEqual:[UIColor clearColor]] ?
-                          [self.class averageContentColor] : self.backgroundColorBackup);
+
+    UIColor *textColor;
+	if ([self.backgroundColorBackup isEqual:[UIColor clearColor]]) {
+		textColor = [self.class averageContentColor] ?: [UIColor whiteColor];
+	} else {
+		textColor = self.backgroundColorBackup ?: [UIColor whiteColor];
+	}
+
     self.numberLabel.textColor = textColor;
     self.lettersLabel.textColor = textColor;
 }
@@ -161,7 +167,7 @@
 
 - (void)resetHighlight
 {
-    [UIView animateWithDuration:0.3f delay:0.0f options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionAllowUserInteraction
+    [UIView animateWithDuration:0.3f delay:0.0f options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionAllowUserInteraction
                      animations:^{
                          self.backgroundColor = self.backgroundColorBackup;
                      } completion:^(BOOL finished) {

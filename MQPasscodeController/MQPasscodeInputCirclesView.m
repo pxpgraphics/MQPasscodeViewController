@@ -124,7 +124,7 @@ static CGFloat const MQPasscodeInputCircleViewInitialShakeVelocity = 40.0f;
 
 - (void)performShake
 {
-    [UIView animateWithDuration:0.03f animations:^ {
+    [UIView animateWithDuration:0.08f animations:^ {
         self.transform = CGAffineTransformMakeTranslation(self.shakeDirection * self.shakeVelocity, 0.0f);
     } completion:^(BOOL finished) {
         if (self.numberOfShakes < MQPasscodeInputCircleViewMaximumNumberOfShakes)

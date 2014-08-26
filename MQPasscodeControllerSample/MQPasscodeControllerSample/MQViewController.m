@@ -31,10 +31,12 @@ static NSUInteger const MQViewControllerMaximumNumberOfPasscodeAttempts = 3;
 	self.modalPresentationStyle = UIModalPresentationFullScreen;
 
 	UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"unsplash_52bf2bb8d2dd0_1.jpg"]];
+//	imageView.transform = CGAffineTransformMakeRotation(M_PI);
 	imageView.contentMode = UIViewContentModeScaleAspectFill;
 	imageView.frame = self.view.bounds;
-	imageView.tag = MQPasscodeViewControllerContentViewTag; // Tag to blur this view.
 	[self.view addSubview:imageView];
+
+	self.view.tag = MQPasscodeViewControllerContentViewTag; // Tag to blur this view.
 
 	self.correctPasscode = @"12345";
 

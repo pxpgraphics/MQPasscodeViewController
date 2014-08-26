@@ -37,7 +37,12 @@
 	CGSize size = CGSizeMake(windowSize.width, windowSize.height - statusBarSize.height);
 
 	// Begin context with device scale.
-	UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+		UIGraphicsBeginImageContextWithOptions(size, NO, 0.1);
+	} else {
+		UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+	}
+
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     CGContextTranslateCTM(context, self.center.x, self.center.y);

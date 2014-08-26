@@ -184,6 +184,7 @@
 
 - (void)setPromptColor:(UIColor *)promptColor
 {
+	self.bottomButton.tintColor = promptColor ?: [UIColor blackColor];
     self.promptLabel.textColor = promptColor;
 }
 
